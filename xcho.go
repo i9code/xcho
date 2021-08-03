@@ -1,28 +1,25 @@
 package xcho
 
 import (
-	"context"
-	"os"
-	"os/signal"
-
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
+	"github.com/i9code/gutils/valid"
+
 	"github.com/i9code/xcho/core"
-	"github.com/i9code/xcho/lib/valid"
 )
 
 type initFunc func(echo *echo.Echo)
 
 // Start 启动服务
-func Start(opts ...option) (err error) {
+func Start(opts ...option) (server *echo.Echo, err error) {
 	options := defaultOptions()
 	for _, opt := range opts {
 		opt.apply(options)
 	}
 
 	// 创建Echo服务器
-	server := echo.New()
+	server = echo.New()
 	server.HideBanner = !options.banner
 
 	// 初始化
@@ -95,17 +92,17 @@ func Start(opts ...option) (err error) {
 	})
 
 	// 在另外的协程中启动服务器，实现优雅地关闭（Graceful Shutdown）
-	go func() {
-		err = server.Start(options.addr)
-	}()
-
-	// 等待系统退出中断并响应
-	quit := make(chan os.Signal)
-	signal.Notify(quit, os.Interrupt)
-	<-quit
-	ctx, cancel := context.WithTimeout(context.Background(), options.shutdownTimeout)
-	defer cancel()
-	err = server.Shutdown(ctx)
+	//go func() {
+	//	//err = server.Start(options.addr)
+	//}()
+	//
+	//// 等待系统退出中断并响应
+	//quit := make(chan os.Signal)
+	//signal.Notify(quit, os.Interrupt)
+	//<-quit
+	//ctx, cancel := context.WithTimeout(context.Background(), options.shutdownTimeout)
+	//defer cancel()
+	//err = server.Shutdown(ctx)
 
 	return
 }

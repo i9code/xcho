@@ -5,7 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4/middleware"
 
-	"github.com/i9code/xcho/lib/utils"
+	"github.com/i9code/gutils"
 )
 
 var (
@@ -65,7 +65,7 @@ func Signature(algorithm Algorithm, source keySource) *optionSignature {
 // SignatureWithConfig Http签名
 func SignatureWithConfig(skipper middleware.Skipper, algorithm Algorithm, source keySource) *optionSignature {
 	// 检查算法配置是否正确
-	if exists, _ := utils.IsInArray(algorithm, supportAlgorithm); !exists {
+	if exists, _ := gutils.IsInArray(algorithm, supportAlgorithm); !exists {
 		panic(fmt.Errorf("不支持的算法：%s", algorithm))
 	}
 

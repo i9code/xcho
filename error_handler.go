@@ -6,8 +6,9 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 
+	"github.com/i9code/gutils/valid"
+
 	"github.com/i9code/xcho/core"
-	"github.com/i9code/xcho/lib/valid"
 )
 
 type errorHandler func(err error, ctx echo.Context)

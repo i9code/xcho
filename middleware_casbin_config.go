@@ -4,10 +4,9 @@ import (
 	"strconv"
 
 	"github.com/casbin/casbin/v2"
+	"github.com/i9code/gutils/base"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-
-	"github.com/i9code/xcho/core/data"
 )
 
 var methodMapping = map[string]string{
@@ -33,7 +32,7 @@ type CasbinConfig struct {
 
 func (cc *CasbinConfig) checkPermission(ctx echo.Context) (pass bool, err error) {
 	var (
-		user    *data.BaseUser
+		user    *base.BaseUser
 		roleIds []int64
 		ec      = Context{
 			Context: ctx,
