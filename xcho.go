@@ -1,12 +1,10 @@
 package xcho
 
 import (
+	"github.com/i9code/xutils/valid"
+	"github.com/i9code/xutils/xhttp"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-
-	"github.com/i9code/xutils/valid"
-
-	"github.com/i9code/xcho/core"
 )
 
 type initFunc func(echo *echo.Echo)
@@ -58,7 +56,7 @@ func Start(opts ...option) (server *echo.Echo, err error) {
 	// 配置跨域
 	if options.crosEnable {
 		cors := middleware.DefaultCORSConfig
-		cors.AllowMethods = append(cors.AllowMethods, string(core.HttpMethodOptions))
+		cors.AllowMethods = append(cors.AllowMethods, string(xhttp.HttpMethodOptions))
 		cors.AllowOrigins = options.cros.origins
 		cors.AllowCredentials = options.cros.credentials
 		server.Use(middleware.CORSWithConfig(cors))
