@@ -107,7 +107,6 @@ func logFunc(config MiddlewareLoggerConfig) echo.MiddlewareFunc {
 						buf.Write(b)
 						return buf.WriteString("\x1b[0m")
 					}
-
 				case "latency":
 					l := stop.Sub(start)
 					return buf.WriteString(strconv.FormatInt(int64(l), 10))
