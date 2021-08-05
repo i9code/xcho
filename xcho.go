@@ -1,23 +1,38 @@
 package xcho
 
 import (
+	"context"
+	"os"
+	"os/signal"
+
 	"github.com/i9code/xutils/valid"
 	"github.com/i9code/xutils/xhttp"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-type initFunc func(echo *echo.Echo)
+type initFunc func(echo *Echo)
 
-// Start 启动服务
-func Start(opts ...option) (server *echo.Echo, err error) {
+type Echo struct {
+	*echo.Echo
+
+	options *options
+}
+
+// 新建Echo服务
+func New(opts ...option) (server *Echo) {
 	options := defaultOptions()
 	for _, opt := range opts {
 		opt.apply(options)
 	}
 
 	// 创建Echo服务器
-	server = echo.New()
+	server = &Echo{
+		Echo: echo.New(),
+	}
+
+	server.options = options
+
 	server.HideBanner = !options.banner
 
 	// 初始化
@@ -51,7 +66,7 @@ func Start(opts ...option) (server *echo.Echo, err error) {
 	server.Pre(middleware.RemoveTrailingSlash())
 
 	// server.Use(middleware.CSRF())
-	server.Use(middleware.Logger())
+	server.Use(logFunc(defaultLoggerConfig))
 	server.Use(middleware.RequestID())
 	// 配置跨域
 	if options.crosEnable {
@@ -89,18 +104,23 @@ func Start(opts ...option) (server *echo.Echo, err error) {
 		}
 	})
 
+	return
+}
+
+func (e *Echo) Start() (err error) {
 	// 在另外的协程中启动服务器，实现优雅地关闭（Graceful Shutdown）
-	//go func() {
-	//	//err = server.Start(options.addr)
-	//}()
-	//
-	//// 等待系统退出中断并响应
-	//quit := make(chan os.Signal)
-	//signal.Notify(quit, os.Interrupt)
-	//<-quit
-	//ctx, cancel := context.WithTimeout(context.Background(), options.shutdownTimeout)
-	//defer cancel()
-	//err = server.Shutdown(ctx)
+	go func() {
+		err = e.Echo.Start(e.options.addr)
+	}()
+
+	// 等待系统退出中断并响应
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	ctx, cancel := context.WithTimeout(context.Background(), e.options.shutdownTimeout)
+	defer cancel()
+
+	e.Shutdown(ctx)
 
 	return
 }
