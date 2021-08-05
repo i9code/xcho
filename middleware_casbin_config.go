@@ -4,7 +4,7 @@ import (
 	"strconv"
 
 	"github.com/casbin/casbin/v2"
-	"github.com/i9code/gutils/base"
+	"github.com/i9code/xutils/base"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )

@@ -1,16 +1,14 @@
 package xcho
 
 import (
-	"encoding/json"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/json-iterator/go"
+	`github.com/i9code/xutils/xhttp`
+	json `github.com/json-iterator/go`
 	"github.com/labstack/echo/v4"
-
-	"github.com/i9code/xcho/core"
 )
 
 const defaultIndent = "  "
@@ -45,7 +43,7 @@ func (c *Context) Subject(subject interface{}) (err error) {
 		return
 	}
 	// 从Token中反序列化主题数据
-	err = json.Unmarshal([]byte(claims.(*jwt.StandardClaims).Subject), &subject)
+	err = json.UnmarshalFromString(claims.(*jwt.StandardClaims).Subject, &subject)
 
 	return
 }
@@ -70,15 +68,15 @@ func (c *Context) HttpFile(file http.File) (err error) {
 }
 
 func (c *Context) HttpAttachment(file http.File, name string) error {
-	return c.contentDisposition(file, name, core.ContentDispositionTypeAttachment)
+	return c.contentDisposition(file, name, xhttp.ContentDispositionTypeAttachment)
 }
 
 func (c *Context) HttpInline(file http.File, name string) error {
-	return c.contentDisposition(file, name, core.ContentDispositionTypeInline)
+	return c.contentDisposition(file, name, xhttp.ContentDispositionTypeInline)
 }
 
-func (c *Context) contentDisposition(file http.File, name string, dispositionType core.ContentDispositionType) error {
-	c.Response().Header().Set(core.HeaderContentDisposition, core.ContentDisposition(name, dispositionType))
+func (c *Context) contentDisposition(file http.File, name string, dispositionType xhttp.ContentDispositionType) error {
+	c.Response().Header().Set(xhttp.HeaderContentDisposition, xhttp.ContentDisposition(name, dispositionType))
 
 	return c.HttpFile(file)
 }
@@ -118,7 +116,7 @@ func (c *Context) JSONPBlob(code int, callback string, b []byte) (err error) {
 }
 
 func (c *Context) jsonPBlob(code int, callback string, i interface{}) (err error) {
-	enc := jsoniter.NewEncoder(c.Response())
+	enc := json.NewEncoder(c.Response())
 	_, pretty := c.QueryParams()["pretty"]
 	if c.Echo().Debug || pretty {
 		enc.SetIndent("", "  ")
@@ -139,7 +137,7 @@ func (c *Context) jsonPBlob(code int, callback string, i interface{}) (err error
 }
 
 func (c *Context) json(code int, i interface{}, indent string) error {
-	enc := jsoniter.NewEncoder(c.Response())
+	enc := json.NewEncoder(c.Response())
 	if "" != indent {
 		enc.SetIndent("", indent)
 	}

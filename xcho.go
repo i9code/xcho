@@ -4,7 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
-	"github.com/i9code/gutils/valid"
+	"github.com/i9code/xutils/valid"
 
 	"github.com/i9code/xcho/core"
 )

@@ -7,7 +7,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-fed/httpsig v1.1.0
 	github.com/go-playground/validator/v10 v10.8.0
-	github.com/i9code/gutils v0.0.0-20210803105152-8c01de13cf70
+	github.com/i9code/xutils v0.0.0-20210803105152-8c01de13cf70
 	github.com/json-iterator/go v1.1.11
 	github.com/labstack/echo/v4 v4.5.0
 	github.com/mcuadros/go-defaults v1.2.0
@@ -19,5 +19,5 @@ require (
 )
 
 replace (
-	github.com/i9code/gutils  => ../gutils
+	github.com/i9code/xutils  => ../xutils
 )
