@@ -5,7 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4/middleware"
 
-	"github.com/i9code/xutils"
+	"github.com/i9code/xutil"
 )
 
 var (
@@ -16,20 +16,20 @@ type optionSignature struct {
 	//  确定是不是要走中间件
 	skipper middleware.Skipper
 	//  签名算法
-	algorithm xutils.Algorithm
+	algorithm xutil.Algorithm
 	//  获得签名参数
 	source keySource
 }
 
 // Signature Http签名
-func Signature(algorithm xutils.Algorithm, source keySource) *optionSignature {
+func Signature(algorithm xutil.Algorithm, source keySource) *optionSignature {
 	return SignatureWithConfig(middleware.DefaultSkipper, algorithm, source)
 }
 
 // SignatureWithConfig Http签名
-func SignatureWithConfig(skipper middleware.Skipper, algorithm xutils.Algorithm, source keySource) *optionSignature {
+func SignatureWithConfig(skipper middleware.Skipper, algorithm xutil.Algorithm, source keySource) *optionSignature {
 	// 检查算法配置是否正确
-	if _, ok := xutils.AlgorithmMap[algorithm]; !ok {
+	if _, ok := xutil.AlgorithmMap[algorithm]; !ok {
 		panic(fmt.Errorf("不支持的算法：%s", algorithm))
 	}
 

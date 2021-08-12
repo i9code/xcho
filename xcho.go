@@ -5,8 +5,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/i9code/xutils/valid"
-	"github.com/i9code/xutils/xhttp"
+	"github.com/i9code/xutil/valid"
+	"github.com/i9code/xutil/xhttp"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )

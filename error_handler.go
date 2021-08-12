@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
-	`github.com/i9code/xutils/xhttp`
+	"github.com/i9code/xutil/xhttp"
 	"github.com/labstack/echo/v4"
 
-	"github.com/i9code/xutils/valid"
+	"github.com/i9code/xutil/valid"
 )
 
 type errorHandler func(err error, ctx echo.Context)

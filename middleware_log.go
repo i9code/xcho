@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/i9code/xutils/xjson"
-	"github.com/i9code/xutils/xlog"
+	"github.com/i9code/xutil/xjson"
+	"github.com/i9code/xutil/xlog"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/valyala/fasttemplate"

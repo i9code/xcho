@@ -7,7 +7,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-fed/httpsig v1.1.0
 	github.com/go-playground/validator/v10 v10.8.0
-	github.com/i9code/xutils v0.0.0-20210805074205-100d09f2d2e3
+	github.com/i9code/xutil v0.0.0-00010101000000-000000000000
 	github.com/json-iterator/go v1.1.11
 	github.com/labstack/echo/v4 v4.5.0
 	github.com/mcuadros/go-defaults v1.2.0
@@ -19,4 +19,4 @@ require (
 	golang.org/x/time v0.0.0-20210220033141-f8bda1e9f3ba // indirect
 )
 
-// replace github.com/i9code/xutils => ../xutils
+replace github.com/i9code/xutil => ../xutil

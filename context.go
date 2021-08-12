@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	`github.com/i9code/xutils/xhttp`
-	json `github.com/json-iterator/go`
+	"github.com/i9code/xutil/xhttp"
+	json "github.com/json-iterator/go"
 	"github.com/labstack/echo/v4"
 )
 

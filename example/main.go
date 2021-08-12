@@ -9,6 +9,7 @@ import (
 func main() {
 	server := xcho.New(xcho.Routes(func(group *xcho.Group) {
 		apiMount(group.Group("/api"))
+
 	}))
 
 	server.Start()
