@@ -31,12 +31,14 @@ type (
 var (
 	defaultLoggerConfig = MiddlewareLoggerConfig{
 		skipper: middleware.DefaultSkipper,
-		Format: `"remote_ip":"${remote_ip}",` +
+		Format: `"ip":"${ip}",` +
 			`"status":${status},` +
-			`"method":"${method}","uri":"${uri}",` +
+			`"method":"${method}",` +
+			`"time":"${time}",` +
+			`"uri":"${uri}",` +
 			`"error":"${error}",` +
-			`"latency_human":"${latency_human}",` +
-			`"out":${out}}`,
+			`"req":"${req}",` +
+			`"rsp":${rsp}}`,
 	}
 )
 
@@ -75,7 +77,7 @@ func logFunc(config MiddlewareLoggerConfig) echo.MiddlewareFunc {
 
 			if _, err = config.template.ExecuteFunc(buf, func(w io.Writer, tag string) (int, error) {
 				switch tag {
-				case "remote_ip":
+				case "ip":
 					return buf.WriteString(c.RealIP())
 				case "uri":
 					return buf.WriteString(req.RequestURI)
@@ -108,9 +110,13 @@ func logFunc(config MiddlewareLoggerConfig) echo.MiddlewareFunc {
 				case "latency":
 					l := stop.Sub(start)
 					return buf.WriteString(strconv.FormatInt(int64(l), 10))
-				case "latency_human":
+				case "time":
 					return buf.WriteString(stop.Sub(start).String())
-				case "out":
+				case "req":
+					if tmpBuf, err := io.ReadAll(req.Body); nil == err {
+						return buf.Write(tmpBuf)
+					}
+				case "rsp":
 					out, _ := xjson.Marshal(res)
 					return buf.WriteString(string(out))
 				default:

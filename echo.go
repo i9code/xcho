@@ -51,7 +51,7 @@ func New(opts ...option) *Echo {
 
 	// server.Use(middleware.CSRF())
 	server.Use(logFunc(defaultLoggerConfig))
-	// server.Use(middleware.Logger())
+	//server.Use(middleware.Logger())
 	server.Use(middleware.RequestID())
 	// 配置跨域
 	if _options.crosEnable {

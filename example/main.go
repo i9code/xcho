@@ -16,8 +16,13 @@ func main() {
 }
 
 func apiMount(g *xcho.Group, mfs ...xcho.MiddlewareFunc) {
-	g.Get("/hello", func(ctx *xcho.Context) (err error) {
+	g.Post("/test", func(ctx *xcho.Context) (err error) {
 
-		return ctx.JSON(http.StatusOK, "abc")
+		return ctx.JSON(http.StatusOK, "post")
+	}).Name = "测试"
+
+	g.Get("/test", func(ctx *xcho.Context) (err error) {
+
+		return ctx.JSON(http.StatusOK, "get")
 	}).Name = "测试"
 }
