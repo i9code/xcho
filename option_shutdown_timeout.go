@@ -1,13 +1,15 @@
 package xcho
 
 import (
-	"time"
+	`time`
 )
 
-var _ option = (*optionShutdownTimeout)(nil)
+var (
+	_ startOption = (*optionShutdownTimeout)(nil)
+	_ stopOption  = (*optionShutdownTimeout)(nil)
+)
 
 type optionShutdownTimeout struct {
-	// 超时
 	timeout time.Duration
 }
 
@@ -18,6 +20,10 @@ func ShutdownTimeout(timeout time.Duration) *optionShutdownTimeout {
 	}
 }
 
-func (st *optionShutdownTimeout) apply(options *options) {
+func (st *optionShutdownTimeout) applyStart(options *startOptions) {
 	options.shutdownTimeout = st.timeout
+}
+
+func (st *optionShutdownTimeout) applyStop(options *stopOptions) {
+	options.timeout = st.timeout
 }

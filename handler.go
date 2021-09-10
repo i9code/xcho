@@ -1,5 +1,3 @@
 package xcho
 
-type (
-	HandlerFunc func(ctx *Context) (err error)
-)
+type handlerFunc func(ctx *Context) (err error)

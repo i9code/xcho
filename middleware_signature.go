@@ -1,11 +1,11 @@
 package xcho
 
 import (
-	"crypto"
-	"net/http"
+	`crypto`
+	`net/http`
 
-	"github.com/go-fed/httpsig"
-	"github.com/labstack/echo/v4"
+	`github.com/go-fed/httpsig`
+	`github.com/labstack/echo/v4`
 )
 
 // keySource 获得签名参数
@@ -14,9 +14,10 @@ type keySource interface {
 	Key(id string) (key string, err error)
 }
 
-func signatureFunc(config signatureConfig) echo.MiddlewareFunc {
-	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(ctx echo.Context) (err error) {
+// SignatureMiddleware 签名中间件
+func SignatureMiddleware(config Signature) MiddlewareFunc {
+	return func(next handlerFunc) handlerFunc {
+		return func(ctx *Context) (err error) {
 			if config.skipper(ctx) {
 				err = next(ctx)
 

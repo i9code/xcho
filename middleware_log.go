@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/i9code/xlog"
 	"github.com/i9code/xutil/xjson"
-	"github.com/i9code/xutil/xlog"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/valyala/fasttemplate"
@@ -32,12 +32,10 @@ var (
 	defaultLoggerConfig = MiddlewareLoggerConfig{
 		skipper: middleware.DefaultSkipper,
 		Format: `"remote_ip":"${remote_ip}",` +
-			`"method":"${method}","uri":"${uri}",` +
 			`"status":${status},` +
+			`"method":"${method}","uri":"${uri}",` +
 			`"error":"${error}",` +
-			`"latency":${latency},` +
 			`"latency_human":"${latency_human}",` +
-			`"bytes_in":${bytes_in},` +
 			`"out":${out}}`,
 	}
 )

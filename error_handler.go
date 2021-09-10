@@ -1,19 +1,18 @@
 package xcho
 
 import (
-	"net/http"
+	`github.com/i9code/xutil/base`
+	`net/http`
 
-	"github.com/go-playground/validator/v10"
-	"github.com/i9code/xutil/xhttp"
-	"github.com/labstack/echo/v4"
-
-	"github.com/i9code/xutil/valid"
+	`github.com/go-playground/validator/v10`
+	`github.com/i9code/xutil/valid`
+	`github.com/labstack/echo/v4`
 )
 
 type errorHandler func(err error, ctx echo.Context)
 
 func errorHandlerFunc(err error, ctx echo.Context) {
-	rsp := xhttp.ErrorCode{}
+	rsp := response{}
 
 	statusCode := http.StatusInternalServerError
 	switch e := err.(type) {
@@ -26,11 +25,11 @@ func errorHandlerFunc(err error, ctx echo.Context) {
 		}
 	case validator.ValidationErrors:
 		statusCode = http.StatusBadRequest
-		lang := ctx.Request().Header.Get(xhttp.HeaderAcceptLanguage)
+		lang := ctx.Request().Header.Get(HeaderAcceptLanguage)
 		rsp.ErrorCode = 9901
 		rsp.Message = "数据验证错误"
 		rsp.Data = valid.I18n(lang, e)
-	case *xhttp.ErrorCode:
+	case *base.ErrorCode:
 		rsp.ErrorCode = e.Code()
 		rsp.Message = e.Msg()
 		rsp.Data = e.ToData()

@@ -1,10 +1,10 @@
 package xcho
 
 import (
-	"fmt"
-	"runtime"
+	`fmt`
+	`runtime`
 
-	"github.com/labstack/echo/v4"
+	`github.com/labstack/echo/v4`
 )
 
 func panicStackFunc(config panicStackConfig) echo.MiddlewareFunc {

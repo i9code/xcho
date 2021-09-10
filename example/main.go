@@ -7,16 +7,16 @@ import (
 )
 
 func main() {
-	server := xcho.New(xcho.Routes(func(group *xcho.Group) {
+	server := xcho.New()
+
+	server.Start(xcho.Routes(func(group *xcho.Group) {
 		apiMount(group.Group("/api"))
 
 	}))
-
-	server.Start()
 }
 
 func apiMount(g *xcho.Group, mfs ...xcho.MiddlewareFunc) {
-	g.GET("/hello", func(ctx *xcho.Context) (err error) {
+	g.Get("/hello", func(ctx *xcho.Context) (err error) {
 
 		return ctx.JSON(http.StatusOK, "abc")
 	}).Name = "测试"

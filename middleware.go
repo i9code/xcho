@@ -1,18 +1,19 @@
 package xcho
 
 import (
-	"github.com/labstack/echo/v4"
+	`github.com/labstack/echo/v4`
 )
 
-type MiddlewareFunc func(HandlerFunc) HandlerFunc
+// MiddlewareFunc 中间件
+type MiddlewareFunc func(handlerFunc) handlerFunc
 
-func ParseMiddlewares(middlewares ...MiddlewareFunc) (ems []echo.MiddlewareFunc) {
+func parseMiddlewares(middlewares ...MiddlewareFunc) (ems []echo.MiddlewareFunc) {
 	length := len(middlewares)
 	if 0 == length {
 		return
 	}
 
-	ems = make([]echo.MiddlewareFunc, length)
+	ems = make([]echo.MiddlewareFunc, 0, length)
 	for _, middleware := range middlewares {
 		ems = append(ems, func(next echo.HandlerFunc) echo.HandlerFunc {
 			handler := middleware(func(ctx *Context) (err error) {
@@ -20,7 +21,7 @@ func ParseMiddlewares(middlewares ...MiddlewareFunc) (ems []echo.MiddlewareFunc)
 			})
 
 			return func(ctx echo.Context) error {
-				return handler(ctx.(*Context))
+				return handler(parseContext(ctx))
 			}
 		})
 	}

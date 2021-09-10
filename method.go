@@ -1,9 +1,9 @@
 package xcho
 
 import (
-	"net/http"
+	`net/http`
 
-	"github.com/labstack/echo/v4"
+	`github.com/labstack/echo/v4`
 )
 
 var methods = [...]string{
