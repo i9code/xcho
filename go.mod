@@ -7,6 +7,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-fed/httpsig v1.1.0
 	github.com/go-playground/validator/v10 v10.9.0
+	github.com/go-resty/resty/v2 v2.6.0
 	github.com/i9code/xlog v0.0.0-20210909033202-bd0588e1680c
 	github.com/i9code/xutil v0.0.0-20210909033641-ed0c48eb44d9
 	github.com/labstack/echo/v4 v4.3.0
