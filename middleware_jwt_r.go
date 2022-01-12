@@ -1,14 +1,14 @@
 package xcho
 
 import (
-	`encoding/json`
-	`reflect`
-	`time`
+	"encoding/json"
+	"reflect"
+	"time"
 
-	`github.com/dgrijalva/jwt-go`
-	`github.com/labstack/echo/v4`
-	`github.com/labstack/echo/v4/middleware`
-	`github.com/rs/xid`
+	"github.com/dgrijalva/jwt-go"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/rs/xid"
 )
 
 // Jwt Jwt配置

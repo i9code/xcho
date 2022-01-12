@@ -1,8 +1,8 @@
-package xcho
+package xhttp
 
 import (
-	`crypto/tls`
-	`github.com/go-resty/resty/v2`
+	"crypto/tls"
+	"github.com/go-resty/resty/v2"
 )
 
 // Client 客户端封装

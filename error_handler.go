@@ -1,12 +1,11 @@
 package xcho
 
 import (
-	`github.com/i9code/xutil/base`
-	`net/http`
-
-	`github.com/go-playground/validator/v10`
-	`github.com/i9code/xutil/valid`
-	`github.com/labstack/echo/v4`
+	"github.com/go-playground/validator/v10"
+	"github.com/i9code/xcho/base"
+	"github.com/i9code/xcho/base/valid"
+	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 type errorHandler func(err error, ctx echo.Context)

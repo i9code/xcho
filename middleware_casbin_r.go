@@ -1,12 +1,12 @@
 package xcho
 
 import (
-	`strconv`
+	"github.com/casbin/casbin/v2"
+	"github.com/labstack/echo/v4"
+	"strconv"
 
-	`github.com/casbin/casbin/v2`
-	`github.com/i9code/xutil/base`
-	`github.com/labstack/echo/v4`
-	`github.com/labstack/echo/v4/middleware`
+	"github.com/i9code/xcho/base"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 var methodMapping = map[string]string{

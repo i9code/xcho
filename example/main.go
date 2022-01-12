@@ -1,7 +1,7 @@
 package main
 
 import (
-	`github.com/i9code/xlog`
+	"github.com/i9code/xcho/base/xhttp"
 	"net/http"
 
 	"github.com/i9code/xcho"
@@ -31,12 +31,12 @@ func apiMount(g *xcho.Group, mfs ...xcho.MiddlewareFunc) {
 }
 
 func httpClient(ctx *xcho.Context) (err error) {
-	httpClient, _ := xcho.NewHttpClient(&xcho.HttpClientConfig{})
+	httpClient, _ := xhttp.NewHttpClient(&xhttp.HttpClientConfig{})
 	rsp, err := httpClient.R().Get("https://cart.jd.com/gate.action?pid=10386048547&pcount=1&ptype=1")
 	if nil != err {
-		xlog.Debug(err)
+		//	xlog.Debug(err)
 	}
-	xlog.Debug(rsp)
+	//xlog.Debug(rsp)
 
 	return ctx.JSON(http.StatusOK, rsp.Body())
 }

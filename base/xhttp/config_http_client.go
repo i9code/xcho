@@ -1,10 +1,10 @@
-package xcho
+package xhttp
 
 import (
-	`fmt`
-	`net/http`
-	`net/url`
-	`time`
+	"fmt"
+	"net/http"
+	"net/url"
+	"time"
 )
 
 const (
@@ -18,25 +18,18 @@ const (
 	URISchemeHttps uriScheme = "https"
 )
 
-const (
-	// AuthTypeBasic 基本Http授权验证
-	AuthTypeBasic authType = "basic"
-	// AuthTypeToken 基本传Token的授权验证
-	AuthTypeToken authType = "token"
-)
-
 type (
 	HttpClientConfig struct {
 		// 超时
 		Timeout time.Duration `json:"timeout" yaml:"timeout"`
 		// 代理
-		Proxy proxyConfig `json:"proxy" yaml:"proxy" validate:"structonly"`
+		Proxy ProxyConfig `json:"proxy" yaml:"proxy" xvalidate:"structonly"`
 		// 授权配置
-		Auth authConfig `json:"auth" yaml:"auth" validate:"structonly"`
+		Auth AuthConfig `json:"auth" yaml:"auth" xvalidate:"structonly"`
 		// Body数据传输控制
-		Payload payload `json:"payload" yaml:"payload" validate:"structonly"`
+		Payload Payload `json:"Payload" yaml:"Payload" xvalidate:"structonly"`
 		// 秘钥配置
-		Certificate certificateConfig `json:"certificate" yaml:"certificate" validate:"structonly"`
+		Certificate CertificateConfig `json:"certificate" yaml:"certificate" xvalidate:"structonly"`
 		// 通用的查询参数
 		Queries map[string]string `json:"queries" yaml:"queries"`
 		// 表单参数，只对POST和PUT方法有效
@@ -49,13 +42,11 @@ type (
 
 	// uriScheme 协议
 	uriScheme string
-	// authType 授权类型
-	authType string
 
-	// authConfig 授权信息
-	authConfig struct {
+	// AuthConfig 授权信息
+	AuthConfig struct {
 		// Type 授权类型
-		Type authType `default:"type" json:"type" yaml:"type" validate:"oneof=basic token"`
+		Type AuthType `default:"type" json:"type" yaml:"type" xvalidate:"oneof=basic token"`
 		// Username 用户名
 		Username string `json:"username" yaml:"username"`
 		// Password 密码
@@ -66,21 +57,21 @@ type (
 		Scheme string `json:"scheme" yaml:"scheme"`
 	}
 
-	// proxyConfig 代理配置
-	proxyConfig struct {
+	// ProxyConfig 代理配置
+	ProxyConfig struct {
 		// Host 主机（可以是Ip或者域名）
-		Host string `json:"ip" yaml:"ip" validate:"required"`
+		Host string `json:"ip" yaml:"ip" xvalidate:"required"`
 		// Port 端口
-		Port int `default:"80" json:"port" yaml:"port" validate:"required"`
+		Port int `default:"80" json:"port" yaml:"port" xvalidate:"required"`
 		// Scheme 代理类型
-		Scheme uriScheme `default:"scheme" json:"scheme" yaml:"type" validate:"required,oneof=socks4 socks5 http https"`
+		Scheme uriScheme `default:"scheme" json:"scheme" yaml:"type" xvalidate:"required,oneof=socks4 socks5 http https"`
 		// Username 代理认证用户名
 		Username string `json:"username" yaml:"username"`
 		// Password 代理认证密码
 		Password string `json:"password" yaml:"password"`
 	}
 
-	payload struct {
+	Payload struct {
 		// 是否允许Get方法使用Bogy传输数据
 		Get bool `default:"true" json:"get" yaml:"get"`
 	}
@@ -88,23 +79,23 @@ type (
 	// clientCertificate 客户端秘钥
 	clientCertificate struct {
 		// Public 公钥文件路径
-		Public string `json:"public" yaml:"public" validate:"required,file"`
+		Public string `json:"public" yaml:"public" xvalidate:"required,file"`
 		// Private 私钥文件路径
-		Private string `json:"private" yaml:"private" validate:"required,file"`
+		Private string `json:"private" yaml:"private" xvalidate:"required,file"`
 	}
 
-	// certificateConfig 秘钥
-	certificateConfig struct {
+	// CertificateConfig 秘钥
+	CertificateConfig struct {
 		// Skip 是否跳过TLS检查
 		Skip bool `default:"true" json:"skip" yaml:"skip"`
 		// Root 根秘钥文件路径
-		Root string `json:"root" yaml:"root" validate:"required,file"`
+		Root string `json:"root" yaml:"root" xvalidate:"required,file"`
 		// Clients 客户端
-		Clients []clientCertificate `json:"clients" yaml:"clients" validate:"structonly"`
+		Clients []clientCertificate `json:"clients" yaml:"clients" xvalidate:"structonly"`
 	}
 )
 
-func (p *proxyConfig) Addr() (addr string) {
+func (p *ProxyConfig) Addr() (addr string) {
 	if "" != p.Username && "" != p.Password {
 		addr = fmt.Sprintf(
 			"%s://%s:%s@%s:%d",

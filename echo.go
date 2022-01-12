@@ -1,13 +1,12 @@
 package xcho
 
 import (
-	`context`
-	`github.com/storezhang/validatorx`
-	`os`
-	`os/signal`
+	"context"
+	"github.com/labstack/echo/v4"
+	"os"
+	"os/signal"
 
-	`github.com/labstack/echo/v4`
-	`github.com/labstack/echo/v4/middleware`
+	"github.com/labstack/echo/v4/middleware"
 )
 
 // Echo 组织echo.Echo启动
@@ -33,9 +32,9 @@ func New(opts ...option) *Echo {
 	}
 
 	// 数据验证
-	if _options.validate {
-		server.Validator = &validate{validate: validatorx.New()}
-	}
+	//if _options.validate {
+	//	server.Validator = &validate{validate: .New()}
+	//}
 
 	// 初始化绑定
 	if nil != _options.binder {
@@ -50,7 +49,7 @@ func New(opts ...option) *Echo {
 	server.Pre(middleware.RemoveTrailingSlash())
 
 	// server.Use(middleware.CSRF())
-	server.Use(logFunc(defaultLoggerConfig))
+	// server.Use(logFunc(defaultLoggerConfig))
 	//server.Use(middleware.Logger())
 	server.Use(middleware.RequestID())
 	// 配置跨域

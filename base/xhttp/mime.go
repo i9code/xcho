@@ -1,4 +1,4 @@
-package xcho
+package xhttp
 
 const (
 	MIMEApplicationJSON                  = "application/json"

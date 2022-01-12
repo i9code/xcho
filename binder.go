@@ -1,20 +1,21 @@
 package xcho
 
 import (
-	`bytes`
-	`encoding`
-	`encoding/json`
-	`encoding/xml`
-	`errors`
-	`net/http`
-	`reflect`
-	`strconv`
-	`strings`
+	"bytes"
+	"encoding"
+	"encoding/json"
+	"encoding/xml"
+	"errors"
+	"github.com/i9code/xcho/base/xhttp"
+	"net/http"
+	"reflect"
+	"strconv"
+	"strings"
 
-	`github.com/labstack/echo/v4`
-	`github.com/mcuadros/go-defaults`
-	`github.com/vmihailenco/msgpack/v5`
-	`google.golang.org/protobuf/proto`
+	"github.com/labstack/echo/v4"
+	"github.com/mcuadros/go-defaults"
+	"github.com/vmihailenco/msgpack/v5"
+	"google.golang.org/protobuf/proto"
 )
 
 type binder struct {
@@ -79,19 +80,19 @@ func (b *binder) body(ctx echo.Context, value interface{}) (err error) {
 
 	contentType := req.Header.Get(HeaderContentType)
 	switch {
-	case strings.HasPrefix(contentType, MIMEApplicationJSON):
+	case strings.HasPrefix(contentType, xhttp.MIMEApplicationJSON):
 		err = json.NewDecoder(req.Body).Decode(value)
-	case strings.HasPrefix(contentType, MIMEApplicationXML), strings.HasPrefix(contentType, MIMETextXML):
+	case strings.HasPrefix(contentType, xhttp.MIMEApplicationXML), strings.HasPrefix(contentType, xhttp.MIMETextXML):
 		err = xml.NewDecoder(req.Body).Decode(value)
-	case strings.HasPrefix(contentType, MIMEApplicationProtobuf):
+	case strings.HasPrefix(contentType, xhttp.MIMEApplicationProtobuf):
 		buf := new(bytes.Buffer)
 		if _, err = buf.ReadFrom(req.Body); nil != err {
 			return
 		}
 		err = proto.Unmarshal(buf.Bytes(), value.(proto.Message))
-	case strings.HasPrefix(contentType, MIMEApplicationMsgpack):
+	case strings.HasPrefix(contentType, xhttp.MIMEApplicationMsgpack):
 		err = msgpack.NewDecoder(req.Body).Decode(value)
-	case strings.HasPrefix(contentType, MIMEApplicationForm), strings.HasPrefix(contentType, MIMEMultipartForm):
+	case strings.HasPrefix(contentType, xhttp.MIMEApplicationForm), strings.HasPrefix(contentType, xhttp.MIMEMultipartForm):
 		var params map[string][]string
 		if params, err = ctx.FormParams(); nil != err {
 			return
